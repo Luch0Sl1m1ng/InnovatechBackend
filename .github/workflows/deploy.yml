@@ -1,36 +1,19 @@
-name: Intento Final EP2
+name: Deploy Final
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  build-and-push:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Login to Docker Hub
-        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-
-      - name: Build and Push
-        run: |
-          # Usamos --pull para forzar la actualización de capas
-          docker build --pull -t ${{ secrets.DOCKERHUB_USERNAME }}/innovatech-front:latest ./front_despacho
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/innovatech-front:latest
-
   deploy:
-    needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-      - name: SSH Deploy
+      - name: Ejecutar comandos en AWS
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            sudo docker rm -f front || true
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/innovatech-front:latest
-            sudo docker run -d --name front --network host ${{ secrets.DOCKERHUB_USERNAME }}/innovatech-front:latest
+            docker rm -f front || true
+            docker run -d --name front --network host luisr2004/innovatech-front:latest
