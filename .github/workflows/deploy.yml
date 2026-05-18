@@ -14,10 +14,8 @@ jobs:
       - name: Ejecutar comandos en AWS
         uses: appleboy/ssh-action@v1.0.3
         with:
-          # ESCRIBE TU IP AQUÍ DIRECTAMENTE ENTRE COMILLAS
           host: "3.80.103.181" 
           username: "ec2-user"
-          # El secreto de la llave suele fallar menos, mantenlo así:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
