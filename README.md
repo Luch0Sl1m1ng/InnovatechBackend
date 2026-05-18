@@ -1,7 +1,7 @@
 # Innovatech - EP2 Despliegue de Aplicaciones
 
-## 🚀 Información del Despliegue
-* **IP Pública:** `3.80.103.181` (Cámbiala por la tuya si cambió)
+## Información del Despliegue
+* **IP Pública:** `3.80.103.181` 
 * **URL Front-end:** `http://3.80.103.181:80`
 * **Tecnologías:** React, Docker, AWS EC2, GitHub Actions.
 
