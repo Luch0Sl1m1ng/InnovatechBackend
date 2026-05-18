@@ -10,14 +10,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
-      -name: Ejecutar comandos en AWS
-  uses: appleboy/ssh-action@v1.0.3
-  with:
-    host: "your-ec2-public-ip"
-    username: "ec2-user"
-    key: "${{ secrets.EC2_SSH_KEY }}"
-    port: 22
-    script: |
-      sudo docker rm -f front || true
-      sudo docker run -d --name front --network host luisr2004/innovatech-front:latest
+
+      - name: Ejecutar comandos en AWS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          # ESCRIBE TU IP AQUÍ DIRECTAMENTE ENTRE COMILLAS
+          host: "3.80.103.181" 
+          username: "ec2-user"
+          # El secreto de la llave suele fallar menos, mantenlo así:
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            # Usamos sudo por si acaso y rutas directas
+            sudo docker rm -f front || true
+            sudo docker run -d --name front --network host luisr2004/innovatech-front:latest
