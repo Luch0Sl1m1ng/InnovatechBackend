@@ -1,4 +1,4 @@
-name: Deploy Final
+name: Deploy Final V3
 
 on:
   push:
@@ -8,12 +8,18 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Ejecutar comandos en AWS
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
-          key: ${{ secrets.EC2_SSH_KEY }}
+          # Usamos las comillas para asegurar que lea el texto
+          host: "${{ secrets.EC2_HOST }}"
+          username: "ec2-user"
+          key: "${{ secrets.EC2_SSH_KEY }}"
+          port: 22
           script: |
-            sudo /usr/bin/docker rm -f front || true
-            sudo /usr/bin/docker run -d --name front --network host luisr2004/innovatech-front:latest
+            # Ejecutamos con sudo directo y rutas simples
+            sudo docker rm -f front || true
+            sudo docker run -d --name front --network host luisr2004/innovatech-front:latest
