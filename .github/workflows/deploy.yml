@@ -2,7 +2,7 @@ name: Deploy Final V3
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "deploy" ]
 
 jobs:
   deploy:
