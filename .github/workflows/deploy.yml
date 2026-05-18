@@ -10,16 +10,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Ejecutar comandos en AWS
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          # Usamos las comillas para asegurar que lea el texto
-          host: "${{ secrets.EC2_HOST }}"
-          username: "ec2-user"
-          key: "${{ secrets.EC2_SSH_KEY }}"
-          port: 22
-          script: |
-            # Ejecutamos con sudo directo y rutas simples
-            sudo docker rm -f front || true
-            sudo docker run -d --name front --network host luisr2004/innovatech-front:latest
+        
+      -name: Ejecutar comandos en AWS
+  uses: appleboy/ssh-action@v1.0.3
+  with:
+    host: "your-ec2-public-ip"
+    username: "ec2-user"
+    key: "${{ secrets.EC2_SSH_KEY }}"
+    port: 22
+    script: |
+      sudo docker rm -f front || true
+      sudo docker run -d --name front --network host luisr2004/innovatech-front:latest
